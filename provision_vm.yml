@@ -1,0 +1,17 @@
+---
+- name: Provision Centos vm
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vars.yml
+
+
+  - name: Deploy vm from template in vcenter
+    community.vmware.vmware_guest:
+      validate_certs: false
+      datacenter: "{{ vcenter_datacenter }}"
+      folder: "{{ vcenter_folder }}"
+      name: "{{ vm_name }}"
+      template: "{{ vm_template_name }}"
+      state: poweredon
+      cluster: "{{ vcenter_cluster }}"
