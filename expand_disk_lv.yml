@@ -56,7 +56,7 @@
         state: poweredon
 
     - name: Wait 120 seconds, start checking after 30 seconds
-      wait_for_connection:
+      ansible.builtin.wait_for_connection:
         delay: 30
         timeout: 120
 
@@ -67,7 +67,7 @@
   become: true
   vars_files:
     - vars.yml
-
+    
   tasks:
 
     - name: Get information about vm partitions
