@@ -70,11 +70,11 @@
 
   tasks:
 
-    - name: Get information about vm partiti  ons
-      community.general.parted: device=/dev/  sda unit=MiB
+    - name: Get information about vm partitions
+      community.general.parted: device=/dev/sda unit=MiB
       register: partitions_info  
 
-    - name: Extend an existing partition to   fill all available space
+    - name: Extend an existing partition to fill all available space
       community.general.parted:
         device: /dev/sda
         number: "{{ partitions_info.partitions | length }}"
