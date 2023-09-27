@@ -83,15 +83,15 @@
         resize: true
         state: present
 
-    - name: Resize the volume group /dev/sda  3 to the maximum possible
+    - name: Resize the volume group to the maximum possible
         community.general.lvg:
-        vg: cs
-        pvs: /dev/sda3
-        pvresize: true
+          vg: cs
+          pvs: /dev/sda3
+          pvresize: true
 
-    - name: Extend the logical volume to con  sume all remaining space in the volume group
+    - name: Extend the logical volume to consume all remaining space in the volume group
         community.general.lvol:
-        vg: cs 
-        lv: root 
-        size: +100%FREE
-        resizefs: true
+          vg: cs 
+          lv: root 
+          size: +100%FREE
+          resizefs: true
