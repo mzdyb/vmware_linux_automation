@@ -1,0 +1,61 @@
+---
+- name: Expand vm disk
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - vars.yml
+
+  tasks:
+
+    - name: Get disks info
+      community.vmware.vmware_guest_disk_info:
+        validate_certs: false
+        datacenter: '{{ vcenter_datacenter }}'
+        name: '{{ vm_name }}'
+      register: disk_info
+
+    - name: Get datastore
+      ansible.builtin.set_fact:
+        vm_disk_datastore: "{{ disk_info['guest_disk_info']['0']['backing_datastore'] }}"
+
+    - name: Get scsi controller type
+      ansible.builtin.set_fact:
+        scsi_type: "{{ disk_info['guest_disk_info']['0']['controller_type'] }}"
+
+    - name: Get Unit Number
+      ansible.builtin.set_fact:
+        unit_number: "{{ disk_info['guest_disk_info']['0']['unit_number'] }}"
+
+    - name: Power off vm
+      community.vmware.vmware_guest:
+        validate_certs: false
+        datacenter: "{{ vcenter_datacenter }}"
+        name: "{{ vm_name }}"
+        state: shutdownguest
+
+    - name: Wait 120 seconds, start checking after 15 seconds
+      ansible.builtin.wait_for_connection:
+        delay: 15
+        timeout: 120
+
+    - name: Resize disk in vm
+      community.vmware.vmware_guest_disk:
+        datacenter: "{{ vcenter_datacenter }}"
+        name: "{{ vm_name }}"
+        disk:
+          - size_gb: "{{ vm_disk_new_size_gb }}"
+            state: present
+            unit_number: "{{ unit_number }}"
+            scsi_controller: 0
+            scsi_type: "{{ scsi_type }}"
+
+    - name: Connect to VMWare and boot up guest
+      community.vmware.vmware_guest:
+        validate_certs: false
+        name: "{{ vm_name }}"
+        state: poweredon
+
+  #   - name: Wait 120 seconds, start checking after 30 seconds
+  #     wait_for_connection:
+  #       delay: 30
+  #       timeout: 120
