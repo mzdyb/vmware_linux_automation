@@ -1,0 +1,9 @@
+---
+- name: ping
+  hosts: vm40
+  gather_facts: false
+
+  tasks:
+
+    - ansible.builtin.ping:
+
