@@ -9,9 +9,9 @@
 
     - name: Get disks info
       community.vmware.vmware_guest_disk_info:
-        # validate_certs: false
-        # datacenter: '{{ vcenter_datacenter }}'
-        # name: '{{ vm_name }}'
+        validate_certs: false
+        datacenter: '{{ vcenter_datacenter }}'
+        name: '{{ vm_name }}'
       register: disk_info
 
     - name: Get datastore
@@ -91,7 +91,7 @@
 
     - name: Extend the logical volume to consume all remaining space in the volume group
       community.general.lvol:
-        vg: cs 
-        lv: root 
+        vg: cs
+        lv: root
         size: +100%FREE
         resizefs: true
