@@ -7,6 +7,6 @@ vm_template: "vm_template"
 vm_name: "vm40"
 vcenter_validate_certs: false
 vm_disk_size_gb: 20
-vm_disk_new_size_gb: 65
+vm_disk_new_size_gb: 70
 
 ssh_port: 222
