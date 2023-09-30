@@ -1,6 +1,6 @@
 ---
 - name: ping
-  hosts: vm40
+  hosts: all
   gather_facts: false
 
   tasks:
