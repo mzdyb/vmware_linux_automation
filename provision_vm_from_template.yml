@@ -14,7 +14,7 @@
         state: 'poweredon'
         folder: "{{ vcenter_folder }}"
         template: "{{ vm_template | default('vm_cs8_template') }}"
-        name: "{{ vm_name }}"
+        name: "{{ vm_name | default('change_me') }}"
         cluster: "{{ vcenter_cluster }}"
         hardware:
           memory_mb: "{{ vm_memory_mb | default(4096) }}"
