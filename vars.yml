@@ -2,11 +2,11 @@
 vcenter_hostname: "portal.vc.opentlc.com"
 vcenter_datacenter: "SDDC-Datacenter"
 vcenter_cluster: "Cluster-1"
-vcenter_folder: "Workloads/sandbox-mgp54"
-vm_template: "vm_template"
-vm_name: "vm40"
+vcenter_folder: "Workloads/sandbox-tskkn"
+vm_template: "vm_cs8_template"
+vm_name: "vm1_cs8"
 vcenter_validate_certs: false
 vm_disk_size_gb: 20
-vm_disk_new_size_gb: 70
+vm_disk_new_size_gb: 45
 
 ssh_port: 222
