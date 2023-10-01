@@ -1,6 +1,6 @@
 ---
 - name: expand logical volume and resize filesystem
-  hosts: vm1_cs9
+  hosts: "{{ vm_name }}"
   gather_facts: no
   become: yes
   vars_files:
@@ -12,29 +12,7 @@
     community.general.parted: device=/dev/sda unit=MiB
     register: partitions_info
 
-  # - debug:
-  #     var: partitions_info
-
-  # - debug:
-  #     msg: "{{ partitions_info['disk']['size'] | int }}"
-
-  # - set_fact:
-  #     vm_disk_current_size_mb: "{{ partitions_info['disk']['size'] | int }}"
-
-  # - set_fact:
-  #     vm_disk_new_size_mb: "{{ vm_disk_new_size_gb * 1024}}"
-
-  # - set_fact:
-  #     vm_disk_size_delta_mb: "{{ vm_disk_new_size_mb | int - vm_disk_current_size_mb | int }}"
-      
-
-  # - debug:
-  #     msg: "{{ vm_disk_size_delta_mb, vm_disk_new_size_mb, vm_disk_current_size_mb  }}"
-
-  # - debug:
-  #     msg: "{{ partitions_info.partitions | length  }}"
-
-
+ 
   - name: Extend an existing partition to fill all available space
     community.general.parted:
       device: /dev/sda
