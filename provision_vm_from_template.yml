@@ -25,16 +25,16 @@
             datastore: "{{ datastore | default('WorkloadDatastore') }}"
         networks:
           - name: segment-sandbox-tskkn
-            ip: 192.168.20.100
+            ip: "{{ vm_ip | default('192.168.20.100') }}"
           # - name: "{{ vm_net_name | default('segment-sandbox-tskkn') }}"
           #   ip: "{{ vm_ip | default('192.168.95.100') }}"
-            netmask: 255.255.255.0
-            gateway: 192.168.20.1
+            netmask: "{{ vm_netmask | default('255.255.255.0') }}"
+            gateway: "{{ vm_gateway | default('192.168.20.1') }}"
             start_connected: true
             # connected: true
         customization:
           dns_servers:
-            - '10.2.192.12'
-          domain: 'rh.lab'
+            - "{{ vm_dns_server | default('10.2.192.12') }}"
+          domain: "{{ vm_domain | default('rh.lab') }}"
         wait_for_ip_address: 'yes'
       register: 'new_vm'
