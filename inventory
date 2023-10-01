@@ -1,0 +1,7 @@
+[vms]
+vm40 ansible_host=192.168.95.139
+
+[vms:vars]
+ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -q lab-user@bastion.mgp54.dynamic.opentlc.com "'
+#ansible_user: lab-user
+#ansible_connection: ssh

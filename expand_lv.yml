@@ -1,0 +1,58 @@
+---
+- name: expand logical volume and resize filesystem
+  hosts: vm1_cs9
+  gather_facts: no
+  become: yes
+  vars_files:
+    - vars.yml
+
+  tasks:
+
+  - name: Read device information
+    community.general.parted: device=/dev/sda unit=MiB
+    register: partitions_info
+
+  # - debug:
+  #     var: partitions_info
+
+  # - debug:
+  #     msg: "{{ partitions_info['disk']['size'] | int }}"
+
+  # - set_fact:
+  #     vm_disk_current_size_mb: "{{ partitions_info['disk']['size'] | int }}"
+
+  # - set_fact:
+  #     vm_disk_new_size_mb: "{{ vm_disk_new_size_gb * 1024}}"
+
+  # - set_fact:
+  #     vm_disk_size_delta_mb: "{{ vm_disk_new_size_mb | int - vm_disk_current_size_mb | int }}"
+      
+
+  # - debug:
+  #     msg: "{{ vm_disk_size_delta_mb, vm_disk_new_size_mb, vm_disk_current_size_mb  }}"
+
+  # - debug:
+  #     msg: "{{ partitions_info.partitions | length  }}"
+
+
+  - name: Extend an existing partition to fill all available space
+    community.general.parted:
+      device: /dev/sda
+      number: "{{ partitions_info.partitions | length }}"
+      label: gpt
+      part_end: "100%"
+      resize: true
+      state: present
+
+  - name: Resize the volume group /dev/sda3 to the maximum possible
+    community.general.lvg:
+      vg: cs
+      pvs: /dev/sda3
+      pvresize: true
+
+  - name: Extend the logical volume to consume all remaining space in the volume group
+    community.general.lvol:
+      vg: cs 
+      lv: root 
+      size: +100%FREE
+      resizefs: true
