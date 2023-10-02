@@ -1,12 +1,31 @@
 ---
+
+#vcenter
 vcenter_hostname: "portal.vc.opentlc.com"
 vcenter_datacenter: "SDDC-Datacenter"
 vcenter_cluster: "Cluster-1"
 vcenter_folder: "Workloads/sandbox-tskkn"
+vcenter_validate_certs: false
+
+#vm provisioning
 vm_template: "vm_cs8_template"
 vm_name: "vm1_cs8"
-vcenter_validate_certs: false
 vm_disk_size_gb: 20
-vm_disk_new_size_gb: 45
+vm_disk_new_size_gb: 40
 
-ssh_port: 222
+#linux 
+users:
+  - username: webuser1
+    groups: webadmin
+  - username: webuser2
+    groups: webadmin
+  - username: suser1
+    groups: wheel
+  - username: suser2
+    groups: wheel
+
+sshd:
+  PermitRootLogin: without-password
+  PubkeyAuthentication: yes
+  X11Forwarding: no
+  AllowTcpForwarding: no

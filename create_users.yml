@@ -1,0 +1,42 @@
+---
+- name: Create users
+  hosts: all
+  gather_facts: false
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - name: Make sure webadmin group exists
+      ansible.builtin.group:
+        name: webadmin
+        state: present
+
+    - name: Create users
+      ansible.builtin.user:
+        name: "{{ item['username'] }}"
+        groups: "{{ item['groups'] }}"
+        generate_ssh_key: true
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_my_rsa
+      loop: "{{ users }}"
+
+    # - name: Create users
+    #   ansible.builtin.user:
+    #     name: "{{ item['username'] }}"
+    #     groups: "{{ item['groups'] }}"
+    #   loop: "{{ users }}"
+
+    # - name: Add authorized keys for users
+    #   ansible.posix.authorized_key:
+    #     user: "{{ item['username'] }}"
+    #     key: "{{ lookup('file', 'files/' + item['username'] + '.key.pub') }}"
+    #   loop: "{{ users }}"
+
+    - name: Sudo execution without password for webadmin users
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/webadmin
+        state: present
+        create: true
+        mode: 0440
+        line: "%webadmin ALL=(ALL) NOPASSWD: ALL"
+        validate: /usr/sbin/visudo -cf %s

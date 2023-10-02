@@ -1,0 +1,19 @@
+---
+- name: Configure sshd
+  hosts: "{{ vm_name }}"
+  gather_facts: false
+  become: true
+  vars_files:
+    - vars.yml
+
+  tasks:
+
+  - name: Add SSH public key for user
+    ansible.posix.authorized_key:
+      user: root
+      key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      state: present
+
+  - name: Configure sshd parameters
+    include_role:
+      name: redhat.rhel_system_roles.sshd

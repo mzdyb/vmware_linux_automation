@@ -1,0 +1,38 @@
+---
+- name: Install packages
+  hosts: "{{ vm_name }}"
+  become: yes
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - name: Make sure latest versions of httpd and firewalld are installed
+      ansible.builtin.dnf:
+        name:
+          - httpd
+          - firewalld
+        state: latest
+
+    - name: Create index.html page
+      ansible.builtin.copy:
+        content: "Welcome! You are on server {{ ansible_facts['fqdn'] }} {{ ansible_facts['default_ipv4']['address'] }}\n"
+        dest: /var/www/html/index.html
+  
+    - name: Start and enable firewalld
+      ansible.builtin.service:
+        name: firewalld
+        enabled: true
+        state: started
+
+    - name: Permit http service on firewalld
+      ansible.posix.firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: yes
+
+    - name: Start and enable httpd
+      ansible.builtin.service:
+        name: httpd
+        enabled: true
+        state: started
