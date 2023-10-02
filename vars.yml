@@ -9,7 +9,7 @@ vcenter_validate_certs: false
 
 #vm provisioning
 vm_template: "vm_cs8_template"
-vm_name: "vm1_cs8"
+vm_name: ""
 vm_disk_size_gb: 20
 vm_disk_new_size_gb: 40
 
