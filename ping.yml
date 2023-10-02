@@ -1,0 +1,9 @@
+---
+- name: ping
+  hosts: "{{ vm_name }}"
+  gather_facts: false
+
+  tasks:
+
+    - ansible.builtin.ping:
+
