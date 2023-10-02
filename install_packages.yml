@@ -17,7 +17,7 @@
       ansible.builtin.copy:
         content: "Welcome! You are on server {{ ansible_facts['fqdn'] }} {{ ansible_facts['default_ipv4']['address'] }}\n"
         dest: /var/www/html/index.html
-  
+
     - name: Start and enable firewalld
       ansible.builtin.service:
         name: firewalld

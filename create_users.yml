@@ -1,6 +1,6 @@
 ---
 - name: Create users
-  hosts: all
+  hosts: "{{ vm_name }}"
   gather_facts: false
   vars_files:
     - vars.yml
@@ -19,18 +19,6 @@
         ssh_key_bits: 2048
         ssh_key_file: .ssh/id_my_rsa
       loop: "{{ users }}"
-
-    # - name: Create users
-    #   ansible.builtin.user:
-    #     name: "{{ item['username'] }}"
-    #     groups: "{{ item['groups'] }}"
-    #   loop: "{{ users }}"
-
-    # - name: Add authorized keys for users
-    #   ansible.posix.authorized_key:
-    #     user: "{{ item['username'] }}"
-    #     key: "{{ lookup('file', 'files/' + item['username'] + '.key.pub') }}"
-    #   loop: "{{ users }}"
 
     - name: Sudo execution without password for webadmin users
       ansible.builtin.lineinfile:
