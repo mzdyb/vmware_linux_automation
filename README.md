@@ -1,6 +1,6 @@
 # vmware_linux_automation
 
-<p>This is repo showing three simple use cases of Linux automation in vCenter environment:</p>
+<p>This repo is addressing three simple use cases of Linux automation in vCenter environment:</p>
 
 <ol>
   <li>Provisioning Linux VM from template in vCenter<ul>
