@@ -4,7 +4,7 @@
 vcenter_hostname: "portal.vc.opentlc.com"
 vcenter_datacenter: "SDDC-Datacenter"
 vcenter_cluster: "Cluster-1"
-vcenter_folder: "Workloads/sandbox-tskkn"
+vcenter_folder: "Workloads/sandbox-tvsmr"
 vcenter_validate_certs: false
 
 #vm provisioning
