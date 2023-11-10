@@ -24,10 +24,10 @@
             type: 'thin'
             datastore: "{{ datastore | default('WorkloadDatastore') }}"
         networks:
-          - name: segment-sandbox-tskkn
-            ip: "{{ vm_ip | default('192.168.20.100') }}"
+          - name: "{{ network_adapter }}"
+            ip: "{{ vm_ip | default('192.168.57.100') }}"
             netmask: "{{ vm_netmask | default('255.255.255.0') }}"
-            gateway: "{{ vm_gateway | default('192.168.20.1') }}"
+            gateway: "{{ vm_gateway | default('192.168.57.1') }}"
             start_connected: true
             # connected: true
         customization:

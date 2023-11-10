@@ -6,6 +6,7 @@ vcenter_datacenter: "SDDC-Datacenter"
 vcenter_cluster: "Cluster-1"
 vcenter_folder: "Workloads/sandbox-tvsmr"
 vcenter_validate_certs: false
+network_adapter: "segment-sandbox-tvsmr"
 
 #vm provisioning
 vm_template: "vm_cs8_template"
