@@ -1,0 +1,11 @@
+#example ssh config for reaching vCenter VMs (192.168.20.0/24) via bastion
+Host bastion.<name>.dynamic.opentlc.com
+    Hostname bastion.<name>.dynamic.opentlc.com
+    User lab-user
+    IdentityFile ~/.ssh/id_rsa
+    StrictHostKeyChecking no
+
+Host 192.168.20.*
+    StrictHostKeyChecking no
+    ProxyCommand ssh -W %h:%p bastion.<name>.dynamic.opentlc.com
+
