@@ -1,7 +1,7 @@
 ---
 - name: Install packages
   hosts: "{{ vm_name }}"
-  become: yes
+  become: true
   vars_files:
     - vars.yml
 
@@ -29,7 +29,7 @@
         service: http
         permanent: true
         state: enabled
-        immediate: yes
+        immediate: true
 
     - name: Start and enable httpd
       ansible.builtin.service:

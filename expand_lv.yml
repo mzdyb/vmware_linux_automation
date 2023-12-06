@@ -1,36 +1,35 @@
 ---
 - name: expand logical volume and resize filesystem
   hosts: "{{ vm_name }}"
-  gather_facts: no
-  become: yes
+  gather_facts: false
+  become: true
   vars_files:
     - vars.yml
 
   tasks:
 
-  - name: Read device information
-    community.general.parted: device=/dev/sda unit=MiB
-    register: partitions_info
+    - name: Read device information
+      community.general.parted: device=/dev/sda unit=MiB
+      register: partitions_info
 
- 
-  - name: Extend an existing partition to fill all available space
-    community.general.parted:
-      device: /dev/sda
-      number: "{{ partitions_info.partitions | length }}"
-      label: gpt
-      part_end: "100%"
-      resize: true
-      state: present
+    - name: Extend an existing partition to fill all available space
+      community.general.parted:
+        device: /dev/sda
+        number: "{{ partitions_info.partitions | length }}"
+        label: gpt
+        part_end: 100%
+        resize: true
+        state: present
 
-  - name: Resize the volume group /dev/sda3 to the maximum possible
-    community.general.lvg:
-      vg: cs
-      pvs: /dev/sda3
-      pvresize: true
+    - name: Resize the volume group /dev/sda3 to the maximum possible
+      community.general.lvg:
+        vg: cs
+        pvs: /dev/sda3
+        pvresize: true
 
-  - name: Extend the logical volume to consume all remaining space in the volume group
-    community.general.lvol:
-      vg: cs 
-      lv: root 
-      size: +100%FREE
-      resizefs: true
+    - name: Extend the logical volume to consume all remaining space in the volume group
+      community.general.lvol:
+        vg: cs
+        lv: root
+        size: +100%FREE
+        resizefs: true
