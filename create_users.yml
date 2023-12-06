@@ -25,6 +25,6 @@
         path: /etc/sudoers.d/webadmin
         state: present
         create: true
-        mode: 0440
+        mode: "0440"
         line: "%webadmin ALL=(ALL) NOPASSWD: ALL"
         validate: /usr/sbin/visudo -cf %s

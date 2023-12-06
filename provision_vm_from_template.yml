@@ -7,11 +7,10 @@
     - vars.yml
 
   tasks:
-
     - name: Deploy vm from template
       community.vmware.vmware_guest:
         datacenter: "{{ vcenter_datacenter }}"
-        state: 'poweredon'
+        state: poweredon
         folder: "{{ vcenter_folder }}"
         template: "{{ vm_template | default('vm_cs8_template') }}"
         name: "{{ vm_name | default('change_me') }}"
@@ -21,7 +20,7 @@
           num_cpus: "{{ vm_cpus | default(2) }}"
         disk:
           - size_gb: "{{ vm_disk_size | default(30) }}"
-            type: 'thin'
+            type: thin
             datastore: "{{ datastore | default('WorkloadDatastore') }}"
         networks:
           - name: "{{ network_adapter }}"
@@ -34,5 +33,5 @@
           dns_servers:
             - "{{ vm_dns_server | default('10.2.192.12') }}"
           domain: "{{ vm_domain | default('rh.lab') }}"
-        wait_for_ip_address: 'yes'
-      register: 'new_vm'
+        wait_for_ip_address: "yes"
+      register: new_vm
